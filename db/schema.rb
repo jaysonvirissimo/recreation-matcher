@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_25_035313) do
+ActiveRecord::Schema.define(version: 2018_04_25_035927) do
 
   create_table "activities", force: :cascade do |t|
     t.string "name"
@@ -40,6 +40,18 @@ ActiveRecord::Schema.define(version: 2018_04_25_035313) do
     t.datetime "updated_at", null: false
     t.index ["following_user_id"], name: "index_matching_sessions_on_following_user_id"
     t.index ["starting_user_id"], name: "index_matching_sessions_on_starting_user_id"
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "value"
+    t.integer "matching_session_id"
+    t.integer "activity_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["activity_id"], name: "index_ratings_on_activity_id"
+    t.index ["matching_session_id"], name: "index_ratings_on_matching_session_id"
+    t.index ["user_id"], name: "index_ratings_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
