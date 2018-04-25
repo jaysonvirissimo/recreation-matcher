@@ -10,12 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_25_032915) do
+ActiveRecord::Schema.define(version: 2018_04_25_033657) do
 
   create_table "activities", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "authem_sessions", force: :cascade do |t|
+    t.string "role", null: false
+    t.string "subject_type", null: false
+    t.integer "subject_id", null: false
+    t.string "token", limit: 60, null: false
+    t.datetime "expires_at", null: false
+    t.integer "ttl", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expires_at", "subject_type", "subject_id"], name: "index_authem_sessions_subject"
+    t.index ["expires_at", "token"], name: "index_authem_sessions_on_expires_at_and_token", unique: true
+    t.index ["subject_type", "subject_id"], name: "index_authem_sessions_on_subject_type_and_subject_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "password_digest", null: false
+    t.string "password_reset_token", limit: 60, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
